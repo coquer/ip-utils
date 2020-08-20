@@ -1,5 +1,5 @@
 {
-    "name": "xrstf/ip-utils",
+    "name": "jycr753/ip-utils",
     "description": "small library to deal with IPv4 & IPv6 addresses and subnets",
     "keywords": [
         "ip",
