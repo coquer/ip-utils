@@ -12,12 +12,14 @@ namespace IpUtils\Expression;
 
 use IpUtils\Address\AddressInterface;
 
-interface ExpressionInterface {
-	/**
-	 * check whether the expression matches an address
-	 *
-	 * @param  AddressInterface $address
-	 * @return boolean
-	 */
-	public function matches(AddressInterface $address);
+interface ExpressionInterface
+{
+    /**
+     * check whether the expression matches an address
+     *
+     * @param  AddressInterface  $address
+     *
+     * @return boolean
+     */
+    public function matches(AddressInterface $address);
 }

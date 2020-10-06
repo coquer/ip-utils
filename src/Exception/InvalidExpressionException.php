@@ -10,5 +10,8 @@
 
 namespace IpUtils\Exception;
 
-class InvalidExpressionException extends \Exception {
+use Exception;
+
+class InvalidExpressionException extends Exception
+{
 }

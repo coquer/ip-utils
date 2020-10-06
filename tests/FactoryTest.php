@@ -8,72 +8,81 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 
-use IpUtils\Address\IPv4;
-use IpUtils\Address\IPv6;
+namespace Tests;
+
+use Doctrine\Instantiator\Exception\UnexpectedValueException;
 use IpUtils\Factory;
+use PHPUnit\Framework\TestCase;
 
-class FactoryTest extends \PHPUnit_Framework_TestCase {
-	/**
-	 * @dataProvider  validAddressProvider
-	 */
-	public function testGetAddress($address, $expected) {
-		$address = Factory::getAddress($address);
-		$this->assertInstanceOf($expected, $address);
-	}
+class FactoryTest extends TestCase
+{
+    /**
+     * @dataProvider  validAddressProvider
+     */
+    public function testGetAddress($address, $expected)
+    {
+        $address = Factory::getAddress($address);
+        $this->assertInstanceOf($expected, $address);
+    }
 
-	public function validAddressProvider() {
-		$v4 = 'IpUtils\Address\IPv4';
-		$v6 = 'IpUtils\Address\IPv6';
+    public function validAddressProvider()
+    {
+        $v4 = 'IpUtils\Address\IPv4';
+        $v6 = 'IpUtils\Address\IPv6';
 
-		return array(
-			array('0.0.0.0',   $v4),
-			array('127.0.0.1', $v4),
-			array('::1',       $v6),
-			array('fe80::',    $v6)
-		);
-	}
+        return [
+            ['0.0.0.0', $v4],
+            ['127.0.0.1', $v4],
+            ['::1', $v6],
+            ['fe80::', $v6],
+        ];
+    }
 
-	/**
-	 * @dataProvider       invalidAddressProvider
-	 * @expectedException  UnexpectedValueException
-	 */
-	public function testGetInvalidAddress($address) {
-		Factory::getAddress($address);
-	}
+    /**
+     * @dataProvider invalidAddressProvider
+     * @expectedException UnexpectedValueException
+     */
+    public function testGetInvalidAddress($address)
+    {
+        Factory::getAddress($address);
+    }
 
-	public function invalidAddressProvider() {
-		return array(
-			array('0.0.0.300'),
-			array('abc'),
-			array(':hallo:welt::')
-		);
-	}
+    public function invalidAddressProvider()
+    {
+        return [
+            ['0.0.0.300'],
+            ['abc'],
+            [':hallo:welt::'],
+        ];
+    }
 
-	/**
-	 * @dataProvider  expressionProvider
-	 */
-	public function testGetExpression($expr, $expected) {
-		$expr = Factory::getExpression($expr);
-		$this->assertInstanceOf($expected, $expr);
-	}
+    /**
+     * @dataProvider  expressionProvider
+     */
+    public function testGetExpression($expr, $expected)
+    {
+        $expr = Factory::getExpression($expr);
+        $this->assertInstanceOf($expected, $expr);
+    }
 
-	public function expressionProvider() {
-		$literal = 'IpUtils\Expression\Literal';
-		$pattern = 'IpUtils\Expression\Pattern';
-		$subnet  = 'IpUtils\Expression\Subnet';
+    public function expressionProvider()
+    {
+        $literal = 'IpUtils\Expression\Literal';
+        $pattern = 'IpUtils\Expression\Pattern';
+        $subnet = 'IpUtils\Expression\Subnet';
 
-		return array(
-			array('0.0.0.0', $literal),
-			array('::1',     $literal),
-			array('fe80::1', $literal),
+        return [
+            ['0.0.0.0', $literal],
+            ['::1', $literal],
+            ['fe80::1', $literal],
 
-			array('0.0.0.0/8',  $subnet),
-			array('::1/8',      $subnet),
-			array('fe80::/128', $subnet),
+            ['0.0.0.0/8', $subnet],
+            ['::1/8', $subnet],
+            ['fe80::/128', $subnet],
 
-			array('fe*::',     $pattern),
-			array('::1:*',     $pattern),
-			array('127.*.*.0', $pattern)
-		);
-	}
+            ['fe*::', $pattern],
+            ['::1:*', $pattern],
+            ['127.*.*.0', $pattern],
+        ];
+    }
 }
